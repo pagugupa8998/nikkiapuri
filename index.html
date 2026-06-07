@@ -155,7 +155,7 @@
       <!-- 水そう表示エリア -->
       <div id="left-tab-aquarium" class="space-y-4">
         
-        <!-- 水槽本体（動的な高さ調整クラスをJSから反映） -->
+        <!-- 水槽本体 -->
         <div id="aquarium-container" class="relative bg-aquarium-day rounded-[2.5rem] h-[420px] shadow-inner overflow-hidden border-8 border-white flex flex-col justify-between p-5 transition-all duration-700 shadow-lg">
           
           <!-- 泡エフェクトレイヤー -->
@@ -180,7 +180,7 @@
             <div class="text-right w-5/12 sm:w-1/2">
               <div class="text-[10px] font-bold flex justify-between mb-1 text-slate-600">
                 <span>次の進化まで:</span>
-                <span id="exp-text" class="font-mono">0 / 30 Pt</span>
+                <span id="exp-text" class="font-mono">0 / 100 Pt</span>
               </div>
               <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden border border-slate-300/40 shadow-inner">
                 <div id="exp-bar" class="bg-gradient-to-r from-pink-400 to-pink-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
@@ -191,13 +191,13 @@
           <!-- 浮遊エフェクトレイヤー -->
           <div class="absolute inset-0 pointer-events-none z-20" id="effect-layer"></div>
 
-          <!-- ウーパールーパー本体（最終進化でサイズアップ、レベルごとに拡大） -->
+          <!-- ウーパールーパー本体 -->
           <div class="relative flex-grow flex items-center justify-center">
             <div id="axolotl" class="axolotl-float cursor-pointer select-none transition-all duration-500 relative flex flex-col items-center" onclick="tapPet()">
               
               <!-- 動的キャラクターSVG表示エリア -->
               <div id="character-svg-wrapper" class="w-48 h-48 sm:w-56 sm:h-56 transition-all duration-500 transform scale-100 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)]">
-                <!-- JSで選択中のペットのSVGが読み込まれます -->
+                <!-- JSで選択中のペット of SVGが読み込まれます -->
               </div>
               
               <!-- おしゃべり吹き出し -->
@@ -231,7 +231,7 @@
 
         </div>
 
-        <!-- 水そうサイズ調整パネル（伝説形態でロック解除、無段階スライダー化） -->
+        <!-- 水そうサイズ調整パネル -->
         <div id="aquarium-size-panel" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-100 transition-all duration-300">
           <div class="flex items-center justify-between">
             <h3 class="font-bold text-xs flex items-center gap-1.5 text-slate-600">
@@ -344,7 +344,7 @@
             </div>
             <div class="p-3 border rounded-2xl flex flex-col items-center justify-center text-center bg-slate-100 border-slate-200 text-slate-400" id="g-stage-legend">
               <span class="text-2xl" id="g-icon-legend">🔒</span>
-              <p class="text-xs font-bold text-slate-700 mt-1">伝説の姿</p>
+              <p class="text-xs font-bold text-slate-700 mt-1">伝説 of 伝説の姿</p>
               <span class="text-[9px] bg-slate-200 px-1.5 py-0.5 rounded text-slate-500 mt-1" id="g-req-legend">500 pt で解放</span>
             </div>
           </div>
@@ -353,10 +353,10 @@
 
     </div>
 
-    <!-- 右カラム：カレンダー ＆ バイオリズム ＆ タイムカプセル [6カラム] -->
+    <!-- 右カラム：カレンダー・日付選択 ＆ バイオリズム ＆ タイムカプセル [6カラム] -->
     <div class="lg:col-span-6 flex flex-col gap-4">
 
-      <!-- カレンダーカード -->
+      <!-- カレンダーカード（気分の絵文字スタンプ機能付きで復活！） -->
       <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-slate-100">
         <div class="flex justify-between items-center mb-4">
           <button onclick="navigateMonth(-1)" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-pink-50 hover:text-pink-600 rounded-full transition active:scale-90 border border-slate-200">
@@ -364,10 +364,6 @@
           </button>
           <div class="flex items-center gap-2">
             <h2 id="calendar-title" class="font-bold text-base text-slate-800">2026年 6月</h2>
-            <!-- バイオリズム表示切り替えボタン -->
-            <button onclick="toggleBiorhythm()" class="text-xs bg-pink-100 text-pink-700 font-bold px-2.5 py-1 rounded-full hover:bg-pink-200 transition">
-              📊 感情グラフ
-            </button>
           </div>
           <button onclick="navigateMonth(1)" class="w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-pink-50 hover:text-pink-600 rounded-full transition active:scale-90 border border-slate-200">
             <i class="fa-solid fa-chevron-right"></i>
@@ -390,42 +386,49 @@
           <div id="calendar-days" class="grid grid-cols-7 gap-1.5"></div>
         </div>
 
-        <!-- バイオリズム（折れ線グラフ表示・初期非表示） -->
-        <div id="biorhythm-view" class="hidden py-2">
-          <div class="flex justify-between items-center mb-2">
-            <h3 class="text-xs font-bold text-pink-600">📈 1ヶ月の感情バイオリズム</h3>
-            <button onclick="toggleBiorhythm()" class="text-[10px] text-slate-500 hover:underline">カレンダーに戻る</button>
-          </div>
-          <div class="w-full h-[160px] relative bg-slate-50 rounded-2xl p-2 border border-slate-100">
-            <canvas id="biorhythmChart"></canvas>
-          </div>
-        </div>
-
         <p class="text-[9px] text-slate-400 text-center mt-3">
-          日付をタップすると、日記の追加や振り返りができます（💡 <span class="text-pink-500">🌸マーク</span>は日記がある日です）
+          日付をタップすると日記を切り替えます（💡日記がある日は**その日の気分スタンプ**が押されます！）
         </p>
       </div>
 
-      <!-- タイムカプセルポスト（過去の同じ日・ランダム日の手紙） -->
-      <div id="time-capsule-card" class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-[2rem] p-4 shadow-sm hidden">
-        <div class="flex items-start gap-3">
-          <span class="text-3xl">📮</span>
-          <div class="flex-grow">
-            <div class="flex justify-between items-center">
-              <span class="text-xs font-bold text-amber-800">タイムカプセルのお手紙</span>
-              <span id="time-capsule-date-badge" class="text-[9px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full font-mono">1ヶ月前</span>
+      <!-- 感情バイオリズムカード -->
+      <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-slate-100">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-pink-600 flex items-center gap-1.5">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>1ヶ月の感情バイオリズム</span>
+          </h3>
+          <span class="text-[10px] text-slate-400">直近15日間の気分の波</span>
+        </div>
+        <div class="w-full h-[180px] relative bg-slate-50 rounded-2xl p-2 border border-slate-100">
+          <canvas id="biorhythmChart"></canvas>
+        </div>
+      </div>
+
+      <!-- タイムカプセルポスト -->
+      <div id="time-capsule-card" class="bg-gradient-to-br from-amber-50 to-orange-100/60 border border-amber-200 rounded-[2rem] p-5 shadow-sm hidden transition-all duration-300">
+        <div class="flex items-start gap-4">
+          <span class="text-4xl animate-bounce">📮</span>
+          <div class="flex-grow min-w-0">
+            <div class="flex justify-between items-center border-b border-amber-200/60 pb-1.5">
+              <span class="text-xs font-extrabold text-amber-800 tracking-wider">📬 おもいでレター</span>
+              <span id="time-capsule-date-badge" class="text-[10px] bg-amber-200 text-amber-900 px-2.5 py-0.5 rounded-full font-bold font-mono">去年の今日</span>
             </div>
-            <h4 id="time-capsule-title" class="text-xs font-bold text-slate-700 mt-1">「去年の今日」あるいは「おもいでの日」のあなたより:</h4>
-            <div class="bg-white/90 rounded-2xl p-3 border border-amber-100/50 mt-2 text-xs text-slate-700 italic shadow-inner">
-              <p id="time-capsule-text">ここに過去の日記がふわっと浮かび上がります。</p>
-              <div class="text-right text-[10px] text-slate-400 mt-1 font-bold font-mono" id="time-capsule-stamp">2025/06/05 😊</div>
+            
+            <div class="bg-white/95 rounded-2xl p-4 border border-amber-100/80 mt-3 text-slate-800 shadow-sm relative overflow-hidden">
+              <p id="time-capsule-text" class="text-sm md:text-base font-medium leading-relaxed text-slate-700 italic font-serif break-words whitespace-pre-wrap"></p>
+              
+              <div class="text-right text-xs text-amber-700 mt-3 font-bold flex items-center justify-end gap-1.5" id="time-capsule-stamp">
+                <span>2025/06/05</span>
+                <span class="bg-amber-100 px-2 py-0.5 rounded-full text-base">😊</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- 日記作成/詳細確認フォーム -->
-      <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-pink-100 relative overflow-hidden transition-all duration-300">
+      <div class="bg-white rounded-[2rem] p-5 shadow-md border border-pink-100 relative overflow-hidden transition-all duration-300">
         <!-- 「選択中の日付」を示すミニラベル -->
         <div class="absolute top-0 right-6 bg-pink-400 text-white text-[10px] font-bold px-3 py-1 rounded-b-lg flex items-center gap-1 shadow-sm z-10">
           <i class="fa-regular fa-calendar-check"></i>
@@ -433,14 +436,21 @@
         </div>
 
         <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-1.5" id="form-heading">
-          <i class="fa-solid fa-pen-nib text-pink-500"></i> 今日の日記を書く
+          <i class="fa-solid fa-pen-nib text-pink-500"></i> 日記を書く
         </h2>
 
         <form id="diary-form" onsubmit="saveDiary(event)" class="space-y-4">
+          
+          <!-- 日付選択フォーム（カレンダーと完全同期） -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-500 mb-1.5">日付を選択</label>
+            <input type="date" id="diary-date" onchange="onDateChange(this.value)" required class="w-full px-4 py-2.5 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-pink-300 bg-slate-50 text-slate-700 shadow-inner">
+          </div>
+
           <!-- 気分選択 -->
           <div>
             <label class="block text-[11px] font-bold text-slate-500 mb-2">その日のきぶん</label>
-            <div class="grid grid-cols-5 gap-2 text-center">
+            <div class="grid grid-cols-5 gap-2 text-center" id="mood-radios-container">
               <label class="cursor-pointer">
                 <input type="radio" name="mood" value="😊" checked class="peer hidden">
                 <div class="py-2 border border-slate-100 rounded-2xl peer-checked:border-pink-400 peer-checked:bg-pink-50/50 hover:bg-slate-50/50 transition-all text-xl shadow-sm relative">
@@ -482,42 +492,43 @@
           <!-- 本文 -->
           <div>
             <label class="block text-[11px] font-bold text-slate-500 mb-1.5">できごと・きもち</label>
-            <textarea id="diary-text" rows="4" placeholder="どんなことがあった？自由に書いてみよう！日記を書くとポイントがもらえて大きく成長します。" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none transition bg-slate-50/30 shadow-inner"></textarea>
+            <textarea id="diary-text" rows="5" placeholder="どんなことがあった？自由に書いてみよう！日記を書くとポイントがもらえて大きく成長します。" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none transition bg-slate-50/30 text-slate-800 shadow-inner" style="font-family: inherit;"></textarea>
           </div>
 
           <!-- 保存ボタン -->
-          <button type="submit" id="submit-btn" class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 active:scale-98 text-white font-bold rounded-2xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+          <button type="submit" id="submit-btn" class="w-full py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 active:scale-98 text-white font-bold rounded-2xl shadow-md transition flex items-center justify-center gap-2 text-sm">
             <i class="fa-solid fa-feather-pointed"></i> <span id="submit-btn-text">この日の日記を登録！ (+10pt)</span>
           </button>
         </form>
 
         <!-- すでに日記が存在する場合の削除・編集切り替え -->
         <div id="exist-diary-actions" class="hidden mt-3 flex gap-2">
-          <button onclick="editFocusedDiary()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 transition">
+          <button onclick="editFocusedDiary()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold text-slate-700 transition">
             ✏️ 日記を修正する
           </button>
-          <button onclick="deleteFocusedDiary()" class="py-2 px-4 bg-rose-50 hover:bg-rose-100 rounded-xl text-xs font-bold text-rose-600 transition border border-rose-100">
+          <button onclick="deleteFocusedDiary()" class="py-2.5 px-4 bg-rose-50 hover:bg-rose-100 rounded-xl text-xs font-bold text-rose-600 transition border border-rose-100">
             <i class="fa-solid fa-trash-can"></i> 削除
           </button>
         </div>
       </div>
 
       <!-- これまでの直近日記一覧 -->
-      <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-slate-100 flex-grow flex flex-col min-h-[160px]">
+      <div class="bg-white rounded-[2rem] p-5 shadow-sm border border-slate-100 flex-grow flex flex-col min-h-[220px]">
         <h2 class="text-xs font-bold text-slate-500 mb-3 flex justify-between items-center">
-          <span><i class="fa-solid fa-list-ul"></i> 最近の日記（履歴）</span>
+          <span><i class="fa-solid fa-list-ul"></i> 最近のウパ日記（履歴）</span>
           <span class="text-[10px] bg-pink-50 text-pink-600 font-bold px-2.5 py-0.5 rounded-full" id="diary-count">0件の日記</span>
         </h2>
         
-        <div class="flex-grow overflow-y-auto max-h-[140px] pr-1 relative">
-          <!-- プレースホルダー (diary-listの外側に配置) -->
-          <div class="text-center py-6 text-slate-400 text-xs h-full flex flex-col items-center justify-center" id="no-diaries-placeholder">
-            <span class="text-3xl mb-2">📓</span>
-            <p class="font-bold">日記がまだありません</p>
-            <p class="text-[10px] text-slate-400 mt-1">カレンダーの日付をタップするか、日記を書いてみてね！</p>
+        <div class="flex-grow overflow-y-auto max-h-[240px] pr-1 relative">
+          <!-- プレースホルダー -->
+          <div class="text-center py-10 text-slate-400 text-xs h-full flex flex-col items-center justify-center" id="no-diaries-placeholder">
+            <span class="text-4xl mb-2">📓</span>
+            <p class="font-bold text-sm">日記がまだありません</p>
+            <p class="text-[10px] text-slate-400 mt-1">日付を選択するか、日記を新しく書いてみてね！</p>
           </div>
           
-          <div id="diary-list" class="space-y-3"></div>
+          <!-- 日記リスト -->
+          <div id="diary-list" class="space-y-4"></div>
         </div>
       </div>
 
@@ -590,14 +601,13 @@
   <!-- JavaScript -->
   <script>
     // ---------------------------------
-    // 1. アプリ状態管理 (キャラクター個別化アップデート版)
+    // 1. アプリ状態管理
     // ---------------------------------
     let petState = {
       points: 0,       // 全キャラクター累計獲得ポイント
       theme: "day",    // テーマ
       activeType: "pink_upa", // 現在お世話中のキャラクター種別
       dailyCare: {},   // 1日の獲得お世話ポイント管理 {"YYYY-MM-DD": points}
-      // キャラクターごとの個別ステータス
       pets: {
         pink_upa: { name: "ピンクウパちゃん", level: 1, exp: 0, points: 0, stage: "baby", hunger: 100, mood: 100, aquariumSize: 420 },
         golden_upa: { name: "ゴールデンちゃん", level: 1, exp: 0, points: 0, stage: "baby", hunger: 100, mood: 100, aquariumSize: 420 },
@@ -620,7 +630,7 @@
       kame: { name: "カメさん", emoji: "🐢", color: "#a7f3d0", secondary: "#059669", desc: "ゆっくりおだやかに暮らすおともだち" }
     };
 
-    // 成長段階の定義（育成難度調整：さらにじっくり育つように変更）
+    // 成長段階の定義
     const STAGES = {
       baby: { name: "赤ちゃん", nextExp: 100 },
       child: { name: "子ども", nextExp: 250 },
@@ -632,7 +642,7 @@
     const UTTERANCES = [
       "ぷきゅ？きょうはどんなことがあったの？",
       "なでなでして〜！うれしくなっちゃうな",
-      "おなかすいたよ〜、エサがたべたいな！",
+      "おなかすいたよ〜, エサがたべたいな！",
       "きみの書く日記、いつも読むのが楽しみなんだ！",
       "ぷくぷく… お水が透き通ってきもちいい！✨",
       "ずっといっしょにいてくれてありがとう♪",
@@ -640,17 +650,16 @@
       "きょうもハッピーな一日にしようね！"
     ];
 
-    // カレンダー & グラフ
-    let currentYear, currentMonth; 
+    let currentYear, currentMonth;
     let focusedDateStr = ""; 
     let chartInstance = null;
-    let isBiorhythmShown = false;
+    let isBiorhythmShown = true; 
 
     // 1日の最大お世話獲得可能ポイント
     const DAILY_CARE_LIMIT = 10;
 
     // ---------------------------------
-    // 2. 音響効果（Web Audio APIシンセサイザー）
+    // 2. 音響効果（Web Audio API）
     // ---------------------------------
     let audioCtx = null;
     function playSound(type) {
@@ -739,42 +748,7 @@
     }
 
     // ---------------------------------
-    // 3. アプリケーション起動
-    // ---------------------------------
-    window.onload = function() {
-      const today = new Date();
-      currentYear = today.getFullYear();
-      currentMonth = today.getMonth();
-      
-      const yearStr = currentYear;
-      const monthStr = String(currentMonth + 1).padStart(2, '0');
-      const dateStr = String(today.getDate()).padStart(2, '0');
-      focusedDateStr = `${yearStr}-${monthStr}-${dateStr}`;
-
-      loadData();
-      
-      updateUI();
-      renderCalendar();
-      updateDiaryFormForFocusedDate();
-      renderDiaries();
-      renderTimeCapsule();
-      renderCharacterSelector();
-      renderCollection();
-      generateBubbles();
-
-      // タイマーによるおなかの自然減 (アクティブなペットのみ)
-      setInterval(() => {
-        const activePet = petState.pets[petState.activeType];
-        if (activePet) {
-          activePet.hunger = Math.max(0, activePet.hunger - 1);
-          activePet.mood = Math.max(0, activePet.mood - 1);
-          updateUI();
-        }
-      }, 20000);
-    };
-
-    // ---------------------------------
-    // 4. キャラクターSVG描画切り替え
+    // 4. キャラクターSVG描画
     // ---------------------------------
     function drawCharacterSVG() {
       const wrapper = document.getElementById("character-svg-wrapper");
@@ -787,10 +761,8 @@
       let svgHTML = "";
 
       if (petState.activeType.includes("upa")) {
-        // ウーパールーパー系
         svgHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full">
-            <!-- 外鰓（エラ） -->
             <g class="gill-left">
               <path d="M 60,75 C 30,55 10,70 25,90" fill="${accentColor}" opacity="0.9" stroke="${accentColor}" stroke-width="2" stroke-linecap="round" />
               <path d="M 58,95 C 20,85 5,105 20,115" fill="${accentColor}" opacity="0.9" stroke="${accentColor}" stroke-width="2" stroke-linecap="round" />
@@ -801,17 +773,12 @@
               <path d="M 142,95 C 180,85 195,105 180,115" fill="${accentColor}" opacity="0.9" stroke="${accentColor}" stroke-width="2" stroke-linecap="round" />
               <path d="M 138,115 C 170,115 185,135 170,135" fill="${accentColor}" opacity="0.9" stroke="${accentColor}" stroke-width="2" stroke-linecap="round" />
             </g>
-            <!-- 尾びれ -->
             <path id="tail-fin" d="M 100,140 C 80,165 75,190 100,205 C 125,190 120,165 100,140" fill="${primaryColor}" opacity="0.7" />
-            <!-- 手足 -->
             <ellipse cx="62" cy="142" rx="9" ry="14" fill="${primaryColor}" transform="rotate(-25 62 142)" />
             <ellipse cx="138" cy="142" rx="9" ry="14" fill="${primaryColor}" transform="rotate(25 138 142)" />
-            <!-- 体 -->
             <ellipse cx="100" cy="132" rx="34" ry="38" fill="${primaryColor}" />
             <ellipse cx="100" cy="136" rx="19" ry="24" fill="#ffffff" opacity="0.7" />
-            <!-- 頭 -->
             <ellipse cx="100" cy="100" rx="44" ry="36" fill="${primaryColor}" />
-            <!-- 目 -->
             <g class="blink-eye">
               <circle cx="82" cy="98" r="6" fill="#2d3748" />
               <circle cx="80" cy="95" r="2" fill="#ffffff" />
@@ -820,12 +787,9 @@
               <circle cx="118" cy="98" r="6" fill="#2d3748" />
               <circle cx="116" cy="95" r="2" fill="#ffffff" />
             </g>
-            <!-- 口 -->
             <path d="M 93,111 Q 100,117 107,111" fill="none" stroke="${accentColor}" stroke-width="3" stroke-linecap="round" />
-            <!-- ほっぺ -->
             <circle cx="70" cy="109" r="5" fill="${accentColor}" opacity="0.5" />
             <circle cx="130" cy="109" r="5" fill="${accentColor}" opacity="0.5" />
-            <!-- 王冠（伝説） -->
             ${isLegend ? `
             <g>
               <path d="M 82,65 L 90,75 L 100,68 L 110,75 L 118,65 L 112,82 L 88,82 Z" fill="#ffd700" stroke="#f59e0b" stroke-width="1.5" />
@@ -835,20 +799,15 @@
             </g>` : ''}
           </svg>`;
       } else if (petState.activeType === "fugu") {
-        // フグ
         svgHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full">
-            <!-- ヒレ -->
             <path d="M 40,100 C 20,90 15,110 30,115" fill="${accentColor}" opacity="0.8" />
             <path d="M 160,100 C 180,90 185,110 170,115" fill="${accentColor}" opacity="0.8" />
             <path d="M 100,160 C 85,185 115,185 100,160" fill="${accentColor}" opacity="0.8" />
-            <!-- 体（まるい） -->
             <circle cx="100" cy="105" r="55" fill="${primaryColor}" />
-            <!-- おなかのトゲ風ドット -->
             <circle cx="80" cy="130" r="2" fill="${accentColor}" opacity="0.5" />
             <circle cx="100" cy="135" r="2" fill="${accentColor}" opacity="0.5" />
             <circle cx="120" cy="130" r="2" fill="${accentColor}" opacity="0.5" />
-            <!-- 目 -->
             <g class="blink-eye">
               <circle cx="75" cy="95" r="8" fill="#2d3748" />
               <circle cx="72" cy="91" r="2.5" fill="#ffffff" />
@@ -857,12 +816,9 @@
               <circle cx="125" cy="95" r="8" fill="#2d3748" />
               <circle cx="122" cy="91" r="2.5" fill="#ffffff" />
             </g>
-            <!-- ほっぺ -->
             <circle cx="65" cy="108" r="6" fill="#f87171" opacity="0.4" />
             <circle cx="135" cy="108" r="6" fill="#f87171" opacity="0.4" />
-            <!-- お口（すぼめてる） -->
             <circle cx="100" cy="110" r="5" fill="none" stroke="${accentColor}" stroke-width="3" />
-            <!-- 王冠（伝説） -->
             ${isLegend ? `
             <g>
               <path d="M 85,45 L 92,53 L 100,47 L 108,53 L 115,45 L 110,58 L 90,58 Z" fill="#ffd700" stroke="#f59e0b" stroke-width="1" />
@@ -870,22 +826,16 @@
             </g>` : ''}
           </svg>`;
       } else if (petState.activeType === "kame") {
-        // カメ
         svgHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full">
-            <!-- 手足 -->
             <ellipse cx="60" cy="135" rx="14" ry="8" fill="${accentColor}" transform="rotate(-15 60 135)" />
             <ellipse cx="140" cy="135" rx="14" ry="8" fill="${accentColor}" transform="rotate(15 140 135)" />
             <ellipse cx="70" cy="155" rx="10" ry="12" fill="${accentColor}" />
             <ellipse cx="130" cy="155" rx="10" ry="12" fill="${accentColor}" />
-            <!-- 甲羅 -->
             <ellipse cx="100" cy="125" rx="48" ry="42" fill="#047857" />
             <ellipse cx="100" cy="125" rx="40" ry="34" fill="${primaryColor}" />
-            <!-- 甲羅の模様 -->
             <path d="M 100,91 L 100,159 M 60,125 L 140,125" stroke="#047857" stroke-width="2" opacity="0.6" />
-            <!-- 頭（にょきっと出てる） -->
             <circle cx="100" cy="80" r="25" fill="${accentColor}" />
-            <!-- 目 -->
             <g class="blink-eye">
               <circle cx="88" cy="78" r="4.5" fill="#2d3748" />
               <circle cx="86" cy="76" r="1.5" fill="#ffffff" />
@@ -894,9 +844,7 @@
               <circle cx="112" cy="78" r="4.5" fill="#2d3748" />
               <circle cx="110" cy="76" r="1.5" fill="#ffffff" />
             </g>
-            <!-- お口 -->
             <path d="M 95,88 Q 100,92 105,88" fill="none" stroke="#064e3b" stroke-width="2.5" stroke-linecap="round" />
-            <!-- 王冠（伝説） -->
             ${isLegend ? `
             <g>
               <path d="M 88,48 L 94,56 L 100,50 L 106,56 L 112,48 L 108,60 L 92,60 Z" fill="#ffd700" stroke="#f59e0b" stroke-width="1" />
@@ -909,13 +857,13 @@
     }
 
     // ---------------------------------
-    // 5. UI更新 ＆ 最終進化特典 & 伝説形態巨大化
+    // 5. UI更新 ＆ 伝説巨大化
     // ---------------------------------
     function updateUI() {
       const activePet = petState.pets[petState.activeType];
       if (!activePet) return;
 
-      // 日付の取得 (今日のお世話制限値チェック用)
+      // 日付の取得 (お世話制限チェック用)
       const t = new Date();
       const todayStr = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
       if (!petState.dailyCare) petState.dailyCare = {};
@@ -975,12 +923,11 @@
         document.getElementById("exp-text").innerText = `${displayExp} / ${displayNext} Pt`;
       }
 
-      // 最終進化でのサイズアップ（伝説形態でさらにレベルに連動して巨大化する仕様）
+      // 最終進化でのサイズアップ（レベルに連動して巨大化する仕様）
       const charWrapper = document.getElementById("character-svg-wrapper");
       const isLegend = activePet.stage === "legend";
       
       if (isLegend) {
-        // レベル1をベースの1.20倍とし、1レベルごとに 0.025倍 ずつスケールアップ（最大1.85倍まで巨大化）
         const extraScale = Math.min(0.65, (activePet.level - 1) * 0.025);
         const finalScale = 1.20 + extraScale;
         charWrapper.style.transform = `scale(${finalScale})`;
@@ -1017,7 +964,7 @@
       aquarium.className = aquarium.className.replace(/bg-aquarium-\w+/g, "bg-aquarium-" + petState.theme);
       aquarium.style.height = activePet.aquariumSize + "px";
 
-      // キャラクターSVG再描画
+      // キャラクターSVG描画
       drawCharacterSVG();
 
       // 図鑑表示更新
@@ -1025,11 +972,11 @@
     }
 
     // ---------------------------------
-    // 6. 水槽サイズ無段階スライダー調整機能
+    // 6. 水槽サイズ調整機能
     // ---------------------------------
     function adjustAquariumHeight(val) {
       const activePet = petState.pets[petState.activeType];
-      if (!activePet || activePet.stage !== "legend") return; // 伝説形態のみ
+      if (!activePet || activePet.stage !== "legend") return;
       
       const height = parseInt(val, 10);
       activePet.aquariumSize = height;
@@ -1042,7 +989,7 @@
     }
 
     // ---------------------------------
-    // 7. タイムカプセル振り返り機能
+    // 7. タイムカプセル（お手紙風・大文字化）
     // ---------------------------------
     function renderTimeCapsule() {
       const capsuleCard = document.getElementById("time-capsule-card");
@@ -1066,17 +1013,23 @@
         return `${parts[1]}-${parts[2]}` === currentMonthDay;
       });
 
-      let badgeText = "過去の今日";
+      let badgeText = "過去の今日のおもいで";
 
       if (!targetDiary) {
         targetDiary = pastDiaries[pastDiaries.length - 1]; // 一番古いおもいで
-        badgeText = "おもいでの日";
+        badgeText = "おもいでの日のあなたより";
       }
 
       if (targetDiary) {
         document.getElementById("time-capsule-date-badge").innerText = badgeText;
-        document.getElementById("time-capsule-text").innerText = `『 ${escapeHTML(targetDiary.text)} 』`;
-        document.getElementById("time-capsule-stamp").innerText = `${targetDiary.date.replace(/-/g, '/')} ${targetDiary.mood}`;
+        document.getElementById("time-capsule-text").innerText = `「 ${targetDiary.text} 」`;
+        
+        // スタンプ更新
+        const stampContainer = document.getElementById("time-capsule-stamp");
+        stampContainer.innerHTML = `
+          <span>${targetDiary.date.replace(/-/g, '/')}</span>
+          <span class="bg-amber-100 px-2 py-0.5 rounded-full text-base">${targetDiary.mood}</span>
+        `;
         capsuleCard.classList.remove("hidden");
       } else {
         capsuleCard.classList.add("hidden");
@@ -1084,25 +1037,8 @@
     }
 
     // ---------------------------------
-    // 8. 感情バイオリズム（Chart.jsグラフ描画）
+    // 8. 感情バイオリズム
     // ---------------------------------
-    function toggleBiorhythm() {
-      playSound('click');
-      const calView = document.getElementById("calendar-view");
-      const bioView = document.getElementById("biorhythm-view");
-      
-      if (isBiorhythmShown) {
-        calView.classList.remove("hidden");
-        bioView.classList.add("hidden");
-        isBiorhythmShown = false;
-      } else {
-        calView.classList.add("hidden");
-        bioView.classList.remove("hidden");
-        isBiorhythmShown = true;
-        drawBiorhythmChart();
-      }
-    }
-
     function drawBiorhythmChart() {
       const ctx = document.getElementById("biorhythmChart").getContext("2d");
       const sorted = [...diaries].sort((a, b) => a.date.localeCompare(b.date));
@@ -1110,7 +1046,7 @@
 
       const labels = lastDiaries.map(d => {
         const parts = d.date.split('-');
-        return `${parts[1]}/${parts[2]}`; // MM/DD
+        return `${parts[1]}/${parts[2]}`;
       });
 
       const moodValueMap = { "🥰": 5, "😊": 4, "🥱": 3, "💧": 2, "🔥": 1 };
@@ -1178,7 +1114,7 @@
     }
 
     // ---------------------------------
-    // 9. コレクション・ペット選択機能 (個別切り替え対応)
+    // 9. コレクション・ペット選択
     // ---------------------------------
     function renderCharacterSelector() {
       const grid = document.getElementById("character-selector-grid");
@@ -1198,105 +1134,6 @@
         `;
         grid.appendChild(btn);
       });
-    }
-
-    function selectCharacter(typeKey) {
-      playSound('click');
-      petState.activeType = typeKey;
-      
-      const activePet = petState.pets[typeKey];
-      showTemporarySpeech(`よろしくね！お世話スタート！`);
-      
-      updateUI();
-      renderCharacterSelector();
-      saveData();
-    }
-
-    function openSaveCollectionModal() {
-      playSound('click');
-      const activePet = petState.pets[petState.activeType];
-      if (!activePet) return;
-      const stageName = STAGES[activePet.stage].name;
-      document.getElementById("collection-current-status-preview").innerText = `${activePet.name} (${stageName} / なつき度Lv.${activePet.level})`;
-      document.getElementById("collection-modal").classList.remove("hidden");
-    }
-
-    function closeCollectionModal() {
-      playSound('click');
-      document.getElementById("collection-modal").classList.add("hidden");
-    }
-
-    function confirmSaveCollection() {
-      playSound('evolve');
-      
-      const activePet = petState.pets[petState.activeType];
-      if (!activePet) return;
-
-      // コレクションに現在の状態をプッシュ
-      const newSavedItem = {
-        id: Date.now(),
-        name: activePet.name,
-        stage: STAGES[activePet.stage].name,
-        level: activePet.level,
-        points: activePet.points,
-        type: petState.activeType,
-        date: new Date().toLocaleDateString()
-      };
-
-      collection.push(newSavedItem);
-
-      // 該当するペットの個別パラメータのみを初期リセット
-      const charDefault = CHARACTERS[petState.activeType];
-      activePet.name = charDefault.name + "ちゃん";
-      activePet.stage = "baby";
-      activePet.exp = 0;
-      activePet.points = 0;
-      activePet.level = 1;
-      activePet.hunger = 100;
-      activePet.mood = 100;
-      activePet.aquariumSize = 420;
-      
-      closeCollectionModal();
-      saveData();
-      updateUI();
-      renderCharacterSelector();
-      renderCollection();
-    }
-
-    function renderCollection() {
-      const container = document.getElementById("collection-list-container");
-      container.innerHTML = "";
-
-      if (collection.length === 0) {
-        container.innerHTML = `<p class="text-[11px] text-slate-400 col-span-2 text-center py-4">おもいでの子はまだ登録されていません。</p>`;
-        return;
-      }
-
-      collection.forEach(item => {
-        const char = CHARACTERS[item.type] || CHARACTERS.pink_upa;
-        const card = document.createElement("div");
-        card.className = "bg-pink-50/40 border border-pink-100 rounded-xl p-2 flex items-center gap-2 relative group";
-        card.innerHTML = `
-          <span class="text-2xl">${char.emoji}</span>
-          <div class="flex-grow min-w-0 text-left">
-            <h4 class="text-[11px] font-bold text-slate-800 truncate">${escapeHTML(item.name)}</h4>
-            <p class="text-[9px] text-slate-500">${item.stage} / Lv.${item.level}</p>
-          </div>
-          <button onclick="deleteCollection(${item.id})" class="absolute top-1 right-1 text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition p-1 text-[9px]">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function deleteCollection(id) {
-      if (confirm("このコレクションを削除しますか？（おもいでの姿が消えてしまいます）")) {
-        playSound('click');
-        collection = collection.filter(item => item.id !== id);
-        saveData();
-        renderCollection();
-      }
     }
 
     // ---------------------------------
@@ -1351,12 +1188,11 @@
         food.remove();
         createFloatingEffect("😋");
 
-        // 今日のお世話上限チェック
         const pointsGained = checkAndAddCarePoints(2);
         if (pointsGained > 0) {
           activePet.points += pointsGained;
           activePet.exp += pointsGained;
-          petState.points += pointsGained; // 全体累計にも加算
+          petState.points += pointsGained;
           showTemporarySpeech("もぐもぐ…！とってもおいしい！");
         } else {
           showTemporarySpeech("お腹は満たされたよ！(お世話ptは上限です)");
@@ -1378,7 +1214,6 @@
       playSound('stroke');
       createFloatingEffect("✨");
 
-      // 今日のお世話上限チェック
       const pointsGained = checkAndAddCarePoints(1);
       if (pointsGained > 0) {
         activePet.points += pointsGained;
@@ -1405,7 +1240,6 @@
       createFloatingEffect("🫧");
       createFloatingEffect("🧹");
 
-      // 今日のお世話上限チェック
       const pointsGained = checkAndAddCarePoints(1);
       if (pointsGained > 0) {
         activePet.points += pointsGained;
@@ -1425,90 +1259,17 @@
     }
 
     // ---------------------------------
-    // 11. カレンダーシステム
+    // 11. 日付選択時のアクション
     // ---------------------------------
-    function renderCalendar() {
-      const container = document.getElementById("calendar-days");
-      const title = document.getElementById("calendar-title");
-      
-      const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
-      const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
-      
-      title.innerText = `${currentYear}年 ${currentMonth + 1}月`;
-      container.innerHTML = "";
-
-      for (let i = firstDayIndex; i > 0; i--) {
-        const dayNum = prevLastDay - i + 1;
-        const dummyDay = document.createElement("div");
-        dummyDay.className = "h-9 rounded-lg flex items-center justify-center text-xs text-slate-300 font-mono bg-slate-50/40 select-none";
-        dummyDay.innerText = dayNum;
-        container.appendChild(dummyDay);
-      }
-
-      for (let day = 1; day <= lastDay; day++) {
-        const dayBtn = document.createElement("button");
-        const formattedMonth = String(currentMonth + 1).padStart(2, '0');
-        const formattedDay = String(day).padStart(2, '0');
-        const loopDateStr = `${currentYear}-${formattedMonth}-${formattedDay}`;
-
-        const hasDiary = diaries.some(d => d.date === loopDateStr);
-
-        let btnClasses = "h-9 rounded-xl flex flex-col items-center justify-between py-1 text-[11px] font-mono font-bold border transition relative active:scale-95 ";
-
-        if (loopDateStr === focusedDateStr) {
-          btnClasses += "bg-pink-500 border-pink-500 text-white shadow-md shadow-pink-200";
-        } else {
-          const checkTodayObj = new Date();
-          const todayStr = `${checkTodayObj.getFullYear()}-${String(checkTodayObj.getMonth() + 1).padStart(2, '0')}-${String(checkTodayObj.getDate()).padStart(2, '0')}`;
-          
-          if (loopDateStr === todayStr) {
-            btnClasses += "bg-pink-50 text-pink-600 border-pink-300";
-          } else {
-            btnClasses += "bg-slate-50/60 text-slate-700 border-slate-100 hover:bg-slate-100/80 hover:border-slate-200";
-          }
-        }
-
-        dayBtn.className = btnClasses;
-        dayBtn.setAttribute("onclick", `selectCalendarDate("${loopDateStr}")`);
-        
-        const numSpan = document.createElement("span");
-        numSpan.innerText = day;
-        dayBtn.appendChild(numSpan);
-
-        if (hasDiary) {
-          const stamp = document.createElement("span");
-          stamp.className = `text-[8px] mt-0.5 leading-none ${loopDateStr === focusedDateStr ? 'text-white' : 'text-pink-500'}`;
-          stamp.innerHTML = "🌸";
-          dayBtn.appendChild(stamp);
-        } else {
-          const empty = document.createElement("span");
-          empty.className = "h-2 w-2";
-          dayBtn.appendChild(empty);
-        }
-
-        container.appendChild(dayBtn);
-      }
-    }
-
-    function navigateMonth(direction) {
-      playSound('click');
-      currentMonth += direction;
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear += 1;
-      } else if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear -= 1;
-      }
-      renderCalendar();
-    }
-
-    // カレンダーの日付を選択する関数
-    function selectCalendarDate(dateStr) {
+    function onDateChange(dateStr) {
       playSound('click');
       focusedDateStr = dateStr;
       
+      // カレンダーの表示年月も自動で合わせる
+      const parts = dateStr.split('-');
+      currentYear = parseInt(parts[0], 10);
+      currentMonth = parseInt(parts[1], 10) - 1;
+
       renderCalendar();
       updateDiaryFormForFocusedDate();
     }
@@ -1518,7 +1279,9 @@
     // ---------------------------------
     function updateDiaryFormForFocusedDate() {
       const dateParts = focusedDateStr.split('-');
-      document.getElementById("focused-date-label").innerText = `${dateParts[0]}年${dateParts[1]}月${dateParts[2]}日`;
+      // 日付ピッカーのvalueにセット
+      document.getElementById("diary-date").value = focusedDateStr;
+      document.getElementById("focused-date-label").innerText = `${dateParts[0]}年${parseInt(dateParts[1], 10)}月${parseInt(dateParts[2], 10)}日`;
 
       const diary = diaries.find(d => d.date === focusedDateStr);
       
@@ -1528,10 +1291,10 @@
       const existDiaryActions = document.getElementById("exist-diary-actions");
 
       if (diary) {
-        formHeading.innerHTML = `<i class="fa-solid fa-book-open text-pink-500"></i> ${dateParts[1]}月${dateParts[2]}日の日記`;
+        formHeading.innerHTML = `<i class="fa-solid fa-book-open text-pink-500"></i> ${parseInt(dateParts[1], 10)}月${parseInt(dateParts[2], 10)}日の日記`;
         textarea.value = diary.text;
         textarea.setAttribute("readonly", "true");
-        textarea.className = "w-full px-3.5 py-2.5 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-slate-100 text-slate-500 shadow-inner";
+        textarea.className = "w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-slate-100 text-slate-500 shadow-inner";
         
         const radio = document.querySelector(`input[name="mood"][value="${diary.mood}"]`);
         if (radio) radio.checked = true;
@@ -1541,10 +1304,10 @@
         document.getElementById("submit-btn").classList.add("hidden");
         existDiaryActions.classList.remove("hidden");
       } else {
-        formHeading.innerHTML = `<i class="fa-solid fa-pen-nib text-pink-500"></i> ${dateParts[1]}月${dateParts[2]}日の日記を書く`;
+        formHeading.innerHTML = `<i class="fa-solid fa-pen-nib text-pink-500"></i> ${parseInt(dateParts[1], 10)}月${parseInt(dateParts[2], 10)}日の日記を書く`;
         textarea.value = "";
         textarea.removeAttribute("readonly");
-        textarea.className = "w-full px-3.5 py-2.5 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-slate-50/30 text-slate-800 shadow-inner";
+        textarea.className = "w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-slate-50/30 text-slate-800 shadow-inner";
         
         const defaultRadio = document.querySelector(`input[name="mood"][value="😊"]`);
         if (defaultRadio) defaultRadio.checked = true;
@@ -1556,11 +1319,17 @@
       }
     }
 
+    // プレビューモード時にポインターイベントを無効化し半透明にしてバグを完全防止
     function setMoodRadiosDisabled(disabled) {
       const radios = document.querySelectorAll('input[name="mood"]');
       radios.forEach(r => {
-        if (disabled) r.setAttribute("disabled", "true");
-        else r.removeAttribute("disabled");
+        if (disabled) {
+          r.setAttribute("disabled", "true");
+          r.parentElement.classList.add("pointer-events-none", "opacity-60");
+        } else {
+          r.removeAttribute("disabled");
+          r.parentElement.classList.remove("pointer-events-none", "opacity-60");
+        }
       });
     }
 
@@ -1568,7 +1337,7 @@
       playSound('click');
       const textarea = document.getElementById("diary-text");
       textarea.removeAttribute("readonly");
-      textarea.className = "w-full px-3.5 py-2.5 border border-pink-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-white text-slate-800 shadow-sm";
+      textarea.className = "w-full px-4 py-3 border border-pink-200 rounded-2xl text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none bg-white text-slate-800 shadow-sm";
       setMoodRadiosDisabled(false);
 
       document.getElementById("submit-btn").classList.remove("hidden");
@@ -1600,14 +1369,13 @@
         };
         diaries.unshift(newDiary);
 
-        // アクティブなペットに育成ポイントを加算 (日記登録は1日お世話制限の対象外)
+        // 育成ポイント加算
         activePet.points += 10;
         activePet.exp += 10;
         activePet.level += 1;
         activePet.mood = 100;
         activePet.hunger = Math.min(100, activePet.hunger + 15);
         
-        // 全体の累計ポイントにも加算
         petState.points += 10;
 
         checkEvolution();
@@ -1621,14 +1389,12 @@
 
       saveData();
       updateUI();
-      renderCalendar();
+      renderCalendar(); // カレンダーの更新 (スタンプが押される)
       updateDiaryFormForFocusedDate();
       renderDiaries();
-      renderTimeCapsule(); // タイムカプセル再計算
+      renderTimeCapsule(); 
       renderCharacterSelector();
-      if (isBiorhythmShown) {
-        drawBiorhythmChart(); // 感情グラフの更新
-      }
+      drawBiorhythmChart(); 
     }
 
     function deleteFocusedDiary() {
@@ -1637,33 +1403,31 @@
         diaries = diaries.filter(d => d.date !== focusedDateStr);
         
         saveData();
-        renderCalendar();
+        renderCalendar(); // カレンダーの更新 (スタンプが消える)
         updateDiaryFormForFocusedDate();
         renderDiaries();
         renderTimeCapsule();
-        if (isBiorhythmShown) {
-          drawBiorhythmChart();
-        }
+        drawBiorhythmChart();
       }
     }
 
-    // ダイレクトに特定の日付の日記を消去するメソッド
     function deleteDiaryDirect(dateStr) {
-      if (confirm(`${dateStr.replace(/-/g, '/')}の日記を消去しますか？\n（※獲得したポイントやなつき度は維持されます）`)) {
+      if (confirm(`${dateStr.replace(/-/g, '/')}の日記を消去しますか？\n（獲得したポイントやなつき度は維持されます）`)) {
         playSound('click');
         diaries = diaries.filter(d => d.date !== dateStr);
         
         saveData();
-        renderCalendar();
+        renderCalendar(); // カレンダーの更新
         updateDiaryFormForFocusedDate();
         renderDiaries();
         renderTimeCapsule();
-        if (isBiorhythmShown) {
-          drawBiorhythmChart();
-        }
+        drawBiorhythmChart();
       }
     }
 
+    // ---------------------------------
+    // 13. 日記一覧レンダリング
+    // ---------------------------------
     function renderDiaries() {
       const listContainer = document.getElementById("diary-list");
       const placeholder = document.getElementById("no-diaries-placeholder");
@@ -1684,29 +1448,34 @@
 
       sortedDiaries.slice(0, 5).forEach(diary => {
         const card = document.createElement("div");
-        // hover時に削除ゴミ箱ボタンを表示するために relative group 構造に
-        card.className = "diary-card bg-slate-50/50 border border-slate-150 rounded-2xl p-3 shadow-sm hover:border-pink-300 cursor-pointer transition duration-300 relative group flex items-start gap-2.5";
+        card.className = "diary-card bg-white border border-pink-100 rounded-[1.5rem] p-4 shadow-sm hover:shadow-md hover:border-pink-300 cursor-pointer transition-all duration-300 relative group flex flex-col gap-2.5";
         card.setAttribute("onclick", `selectCalendarDate("${diary.date}")`);
 
+        const parts = diary.date.split('-');
+        const jpDateStr = `${parts[0]}年 ${parseInt(parts[1], 10)}月${parseInt(parts[2], 10)}日`;
+
+        const formattedText = escapeHTML(diary.text).replace(/\n/g, "<br>");
+
         card.innerHTML = `
-          <div class="text-xl bg-white p-1 rounded-xl shadow-sm border border-slate-100 select-none">${diary.mood}</div>
-          <div class="flex-grow min-w-0 pr-6">
-            <div class="flex justify-between items-center mb-0.5">
-              <span class="text-[10px] font-bold text-slate-400 font-mono">${diary.date.replace(/-/g, '/')}</span>
+          <div class="flex justify-between items-center border-b border-pink-50 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xl bg-pink-50 w-9 h-9 rounded-full flex items-center justify-center shadow-inner select-none">${diary.mood}</span>
+              <span class="text-xs md:text-sm font-bold text-slate-600 font-mono tracking-wide">${jpDateStr}</span>
             </div>
-            <p class="text-[11px] text-slate-600 line-clamp-2 leading-relaxed break-all">${escapeHTML(diary.text)}</p>
+            <button onclick="event.stopPropagation(); deleteDiaryDirect('${diary.date}')" class="opacity-0 group-hover:opacity-100 transition duration-200 text-rose-400 hover:text-rose-600 hover:bg-rose-50 p-1.5 rounded-lg mr-6" title="この日記を消去">
+              <i class="fa-solid fa-trash-can text-sm"></i>
+            </button>
           </div>
-          <!-- 右側ホバー時に表示されるダイレクト消去用ゴミ箱ボタン -->
-          <button onclick="event.stopPropagation(); deleteDiaryDirect('${diary.date}')" class="absolute right-2.5 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-200 text-rose-400 hover:text-rose-600 p-2" title="この日記を消去">
-            <i class="fa-solid fa-trash-can text-xs"></i>
-          </button>
+          <div class="pl-1">
+            <p class="text-sm md:text-base text-slate-700 leading-relaxed font-normal break-all tracking-normal">${formattedText}</p>
+          </div>
         `;
         listContainer.appendChild(card);
       });
     }
 
     // ---------------------------------
-    // 13. 進化 ＆ 図鑑制御
+    // 14. タブ制御・進化 ＆ 各種ヘルパー
     // ---------------------------------
     function switchLeftTab(tabName) {
       playSound('click');
@@ -1768,7 +1537,6 @@
       let currentStage = activePet.stage;
       let targetStage = currentStage;
 
-      // 個別の獲得ポイントに応じて各ペットが進化
       if (activePet.points >= STAGES.adult.nextExp) {
         targetStage = "legend";
       } else if (activePet.points >= STAGES.child.nextExp) {
@@ -1780,11 +1548,9 @@
       if (targetStage !== currentStage) {
         activePet.stage = targetStage;
         
-        // 進化モーダルの文字更新
         document.getElementById("modal-pet-name").innerText = activePet.name;
         document.getElementById("modal-stage-name").innerText = `${STAGES[currentStage].name}期 ➔ ${STAGES[targetStage].name}の姿`;
         
-        // 進化お祝い演出
         const charEmoji = CHARACTERS[petState.activeType]?.emoji || "🌸";
         document.getElementById("evolution-modal-emoji").innerText = charEmoji;
 
@@ -1815,9 +1581,6 @@
       }, 150);
     }
 
-    // ---------------------------------
-    // 14. 各種ヘルパー
-    // ---------------------------------
     function showTemporarySpeech(text) {
       const speech = document.getElementById("bubble-speech");
       speech.innerText = text;
@@ -1827,7 +1590,6 @@
       }, 2500);
     }
 
-    // ハートやキラキラのエフェクト
     function createFloatingEffect(emoji) {
       const container = document.getElementById("effect-layer");
       const element = document.createElement("div");
@@ -1893,7 +1655,90 @@
       }
     }
 
-    // 保存＆読込 (スライダー対応＆旧データ互換化アップデート)
+    // ---------------------------------
+    // カレンダーシステム（復活 ＆ 気分スタンプ化）
+    // ---------------------------------
+    function renderCalendar() {
+      const container = document.getElementById("calendar-days");
+      const title = document.getElementById("calendar-title");
+      
+      const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+      const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      
+      title.innerText = `${currentYear}年 ${currentMonth + 1}月`;
+      container.innerHTML = "";
+
+      // 前月の埋め合わせ
+      for (let i = firstDayIndex; i > 0; i--) {
+        const dayNum = prevLastDay - i + 1;
+        const dummyDay = document.createElement("div");
+        dummyDay.className = "h-11 rounded-lg flex items-center justify-center text-xs text-slate-300 font-mono bg-slate-50/40 select-none";
+        dummyDay.innerText = dayNum;
+        container.appendChild(dummyDay);
+      }
+
+      // 当月の日付
+      for (let day = 1; day <= lastDay; day++) {
+        const dayBtn = document.createElement("button");
+        const formattedMonth = String(currentMonth + 1).padStart(2, '0');
+        const formattedDay = String(day).padStart(2, '0');
+        const loopDateStr = `${currentYear}-${formattedMonth}-${formattedDay}`;
+
+        // その日の日記データを検索
+        const dayDiary = diaries.find(d => d.date === loopDateStr);
+
+        let btnClasses = "h-11 rounded-xl flex flex-col items-center justify-between py-1 text-[11px] font-mono font-bold border transition relative active:scale-95 ";
+
+        if (loopDateStr === focusedDateStr) {
+          btnClasses += "bg-pink-500 border-pink-500 text-white shadow-md shadow-pink-200";
+        } else {
+          const checkTodayObj = new Date();
+          const todayStr = `${checkTodayObj.getFullYear()}-${String(checkTodayObj.getMonth() + 1).padStart(2, '0')}-${String(checkTodayObj.getDate()).padStart(2, '0')}`;
+          
+          if (loopDateStr === todayStr) {
+            btnClasses += "bg-pink-50 text-pink-600 border-pink-300";
+          } else {
+            btnClasses += "bg-slate-50/60 text-slate-700 border-slate-100 hover:bg-slate-100/80 hover:border-slate-200";
+          }
+        }
+
+        dayBtn.className = btnClasses;
+        dayBtn.setAttribute("onclick", `selectCalendarDate("${loopDateStr}")`);
+        
+        const numSpan = document.createElement("span");
+        numSpan.innerText = day;
+        dayBtn.appendChild(numSpan);
+
+        // 日記がある日は、🌸の代わりに「その日の気分絵文字」をスタンプとして贅沢に表示！
+        if (dayDiary) {
+          const stamp = document.createElement("span");
+          stamp.className = "text-sm leading-none filter drop-shadow-sm select-none mb-0.5 animate-pulse";
+          stamp.innerHTML = dayDiary.mood;
+          dayBtn.appendChild(stamp);
+        } else {
+          const empty = document.createElement("span");
+          empty.className = "h-2 w-2";
+          dayBtn.appendChild(empty);
+        }
+
+        container.appendChild(dayBtn);
+      }
+    }
+
+    function selectCalendarDate(dateStr) {
+      playSound('click');
+      focusedDateStr = dateStr;
+      
+      // ピッカーとフォーム側も即時同期
+      const parts = dateStr.split('-');
+      currentYear = parseInt(parts[0], 10);
+      currentMonth = parseInt(parts[1], 10) - 1;
+
+      renderCalendar();
+      updateDiaryFormForFocusedDate();
+    }
+
     function saveData() {
       localStorage.setItem("upa_pet_state_v6", JSON.stringify(petState));
       localStorage.setItem("upa_diaries_v3", JSON.stringify(diaries));
@@ -1919,12 +1764,10 @@
         }
       }
       
-      // お世話獲得制限オブジェクトのマイグレーション
       if (!petState.dailyCare) {
         petState.dailyCare = {};
       }
       
-      // 安全対策：aquariumSizeが数値でない場合のフォールバック
       Object.keys(petState.pets).forEach(key => {
         const pet = petState.pets[key];
         if (typeof pet.aquariumSize !== "number") {
